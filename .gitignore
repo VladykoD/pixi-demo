@@ -1,9 +1,0 @@
-.DS_Store
-*.swp
-.idea/
-npm-debug.log
-.jshintrc
-
-build
-**/node_modules
-.gitignore
