@@ -40,7 +40,7 @@ export class Bouncestring {
 
     animate(ctx, moveX, moveY) {
         ctx.beginPath();
-        ctx.fillStyle = '#ff00ff';
+        ctx.fillStyle = 'rbga(252, 235, 139, .5)';
         ctx.arc(moveX, moveY, 40, 0, Math.PI * 2, false);
         ctx.fill();
 

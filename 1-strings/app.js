@@ -71,22 +71,60 @@ class App {
 
    onDown(e) {
       this.isDown = true;
-      this.moveX = e.clientX
-      this.moveY = e.clientY
+      this.ball.x = e.clientX
+      this.ball.y = e.clientY
+      this.ball.speed = 0
+      this.ball.vx = 0
+      this.ball.vy = 0
    }
 
    onMove(e) {
-      if(this.isDown) {
-         this.moveX = e.clientX
-         this.moveY = e.clientY
+      if (this.isDown) {
+         this.ball.x = e.clientX
+         this.ball.y = e.clientY
+         this.ball.speed = 0
+         this.ball.vx = 0
+         this.ball.vy = 0
       }
    }
 
    onUp(e) {
       this.isDown = false;
 
-      this.moveX = -5000
-      this.moveY = -5000
+      let newX = e.clientX;
+      if (e.clientX > this.stageWidth - this.ball.radius) {
+         newX = this.stageWidth - this.ball.radius
+      }
+      if (e.clientX < this.ball.radius) {
+         newX = this.ball.radius
+      }
+
+      let newY = e.clientY;
+      if (e.clientY > this.stageHeight - this.ball.radius) {
+         newY = this.stageHeight - this.ball.radius
+      }
+      if (e.clientY < this.ball.radius) {
+         newY = this.ball.radius
+      }
+
+      this.ball.x = newX - 1
+      this.ball.y = newY - 1
+      this.ball.speed = 10
+
+      this.ball.vx = 10
+      this.ball.vy = 10
+
+      let timerId = setInterval(() => {
+         if (this.ball.vx > 6) {
+            this.ball.vx--
+            this.ball.vy--
+         } else {
+            this.ball.speed = 6
+            this.ball.vx = 6
+            this.ball.vy = 6
+            clearInterval(timerId);
+         }
+      }, 200);
    }
 
 }
