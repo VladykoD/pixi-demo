@@ -5,7 +5,7 @@
    const filterPath = 'img/ripple.png'
 
    app.stage.interactive = true;
-   let posX,displacementSprite, displacementFilter, bg, vx;
+   let posX,posY,displacementSprite, displacementFilter, bg, vx, vy;
    let container = new PIXI.Container();
    app.stage.addChild(container);
 
@@ -14,6 +14,7 @@
 
    function setup() {
       posX = app.renderer.width / 2;
+      posY = app.renderer.height / 2;
       displacementSprite = new PIXI.Sprite(PIXI.loader.resources['' +
          filterPath].texture);
       displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite);
@@ -21,6 +22,7 @@
       displacementSprite.x = app.renderer.width / 2;
       displacementSprite.y = app.renderer.height / 2;
       vx = displacementSprite.x
+      vy = displacementSprite.y
 
       app.stage.addChild(displacementSprite);
       container.filters = [displacementFilter];
@@ -36,6 +38,7 @@
 
    function onPointerMove(e) {
       posX = e.data.global.x;
+      posY = e.data.global.y;
    }
 
    function loop() {
@@ -48,6 +51,18 @@
       disp = map(disp, 0, 500, 0.1, 0.6)
       displacementSprite.scale.x = disp;
       displacementFilter.scale.x = fs;
+
+
+      vy += (posY - displacementSprite.y) * 0.025;
+      displacementSprite.y = vy;
+      let dispY = Math.floor(posY - displacementSprite.y)
+      if (dispY < 0) dispY = -dispY
+      let fsY = map(dispY, 0, 500, 0, 120)
+      dispY = map(dispY, 0, 500, 0.1, 0.6)
+      displacementSprite.scale.y = dispY;
+      displacementFilter.scale.y = fsY;
+
+
    }
 
    map = function(n, start1, stop1, start2, stop2) {
